@@ -3,15 +3,15 @@
         "person": {
             "屁孩": ["https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-9/14570304_1166680320088981_2520143854908017535_n.jpg?oh=7a58b68d49620d131e47a537a61f1f8a&oe=59CD439F",
                     "https://i.ytimg.com/vi/GvxaQHPoLu8/maxresdefault.jpg", 
-                    "https://raw.githubusercontent.com/sleepingcat103/linebot/master/pictures/persons/p.png"],
+                    "https://raw.githubusercontent.com/sleepingcat103/linebot/master/public/images/persons/p.png"],
             "振宇": ["https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-9/17796399_1874499289243029_3191330377913562194_n.jpg?oh=563a8e1a27294de20a5f88941dc72089&oe=59DBCA90",
                     "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-9/11422678_849084711833568_5050870415218617870_n.jpg?oh=8d8505efffa318db9b9086b2c35225db&oe=59C7BA94"],
-            "明鴻": ["https://raw.githubusercontent.com/sleepingcat103/linebot/master/pictures/persons/mh-1.jpg", 
-                    "https://raw.githubusercontent.com/sleepingcat103/linebot/master/pictures/persons/mh-2.jpg"],
-            "良丞": ["https://raw.githubusercontent.com/sleepingcat103/linebot/master/pictures/persons/lc-1.jpg", 
-                    "https://raw.githubusercontent.com/sleepingcat103/linebot/master/pictures/persons/lc-2.jpg", 
-                    "https://raw.githubusercontent.com/sleepingcat103/linebot/master/pictures/persons/lc-0.jpg"],
-            "臭貓":["https://raw.githubusercontent.com/sleepingcat103/linebot/master/pictures/persons/m.jpg"]
+            "明鴻": ["https://raw.githubusercontent.com/sleepingcat103/linebot/master/public/images/persons/mh-1.jpg", 
+                    "https://raw.githubusercontent.com/sleepingcat103/linebot/master/public/images/persons/mh-2.jpg"],
+            "良丞": ["https://raw.githubusercontent.com/sleepingcat103/linebot/master/public/images/persons/lc-1.jpg", 
+                    "https://raw.githubusercontent.com/sleepingcat103/linebot/master/public/images/persons/lc-2.jpg", 
+                    "https://raw.githubusercontent.com/sleepingcat103/linebot/master/public/images/persons/lc-0.jpg"],
+            "臭貓":["https://raw.githubusercontent.com/sleepingcat103/linebot/master/public/images/persons/m.jpg"]
         },
         "single": {
             "生科": "https://i.imgur.com/jYxRe8wl.jpg",
@@ -20,7 +20,7 @@
         "neta": {
             "haguya": {
                 "file": "haguya.jpg",
-                "font-family": "BrSong.ttc",
+                "font-family": "kaiu.ttf",
                 "width": 174,
                 "height": 147,
                 "font": "38px bold",
@@ -35,7 +35,7 @@
             },
             "goldenhair": {
                 "file": "goldenhair.jpg",
-                "font-family": "BrSong.ttc",
+                "font-family": "kaiu.ttf",
                 "width": 229,
                 "height": 120,
                 "font": "30px bold",
@@ -50,7 +50,7 @@
             },
             "goldenhair2": {
                 "file": "goldenhair2.jpg",
-                "font-family": "BrSong.ttc",
+                "font-family": "kaiu.ttf",
                 "width": 200,
                 "height": 120,
                 "font": "30px bold",
