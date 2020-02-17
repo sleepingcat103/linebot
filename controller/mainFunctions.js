@@ -155,8 +155,7 @@ class mainFunctions {
 
         return new Promise(function(resolve, reject){
             try{
-                var Canvas = require('canvas'),
-                    // font = new Canvas.Font('BrSong', __dirname + '../public/fonts/' + pic['font-family']),
+                var filename = UUID(),
                     canvas = new createCanvas(pic.width, pic.height),
                     ctx = canvas.getContext('2d');
                     
@@ -176,20 +175,20 @@ class mainFunctions {
                         ctx.fillText(strs[i], pic.pos.x + (i * pic.pos['offset-x']), pic.pos.y + (i * pic.pos['offset-y']));
                     }
     
-                    fs.writeFileSync("./public/images/test.jpg", canvas.toBuffer());
+                    fs.writeFileSync(`./public/images/${filename}.jpg`, canvas.toBuffer());
 
-                    resolve('https://i.imgur.com/V5sFGUR.png');
-                    // imgur.setClientId('59891e0427c16b3');
+                    // resolve('https://i.imgur.com/V5sFGUR.png');
+                    imgur.setClientId('59891e0427c16b3');
     
-                    // imgur.uploadFile('./public/images/test.jpg')
-                    // .then(function (json) {
-                    //     console.log(json)
-                    //     resolve(json.data.link);
-                    // })
-                    // .catch(function (error) {
-                    //     console.log(error)
-                    //     reject(error);
-                    // });
+                    imgur.uploadFile(`./public/images/${filename}.jpg`)
+                    .then(function (json) {
+                        console.log(json)
+                        resolve(json.data.link);
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        reject(error);
+                    });
                 })
 
             }catch(e){
@@ -430,6 +429,19 @@ function padRight(str, length) {
         return str;
     else
         return padRight(str + '　', length);
+}
+
+
+function UUID() {
+    var d = Date.now();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+      d += performance.now(); //use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
 }
 
 function GetUrl(url, data) {
