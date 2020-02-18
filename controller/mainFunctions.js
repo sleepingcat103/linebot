@@ -373,7 +373,7 @@ class mainFunctions {
         return new Promise(function(resolve, reject){
 
             console.log(playerId, '戰績');
-            
+
             var options = {
                 uri: 'https://lol.moa.tw/summoner/show/' + encodeURI(playerId),
                 transform: function (body) {
@@ -419,7 +419,7 @@ class mainFunctions {
                         })
                         .map((td, i) => {
                             if(i==0) return td.children.find(child => child.name == 'div').attribs['data-code'];
-                            if(i==1) return td.children.filter(child => child.name == 'span').map(span => `[${span.children[0].data}]`).join('/');
+                            if(i==1) return `[${td.children.filter(child => child.name == 'span').map(span => span.children[0].data).join('/')}]`;
                             // if(i==2) return td.children[0].data;
                             // if(i==3) return td.children[0].data;
                         }).join(' ');
