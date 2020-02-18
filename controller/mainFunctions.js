@@ -307,7 +307,7 @@ class mainFunctions {
                 var tmp = '';
                 for (i = 1; i < mainMsg.length; i++) {
                     tmp = tmp + mainMsg[i]+ ' ';
-                    }
+                }
 
                 var s = GetUrl('https://www.google.com.tw/search', {
                     q: tmp
@@ -366,6 +366,79 @@ class mainFunctions {
             }catch(e){
                 resolve(e);
             }
+        });
+    }
+
+    LOL(inputStr){
+        return new Promise(function(resolve, reject){
+            
+            let mainMsg = inputStr.split(' ');
+            mainMsg.pop();
+            let playerId = mainMsg.join(' ');
+
+            var options = {
+                uri: 'https://lol.moa.tw/summoner/show/' + encodeURI(playerId),
+                transform: function (body) {
+                    return cheerio.load(body);
+                }
+            };
+            rp(options).then(function ($) {
+                var fax = $('a[href="#tabs-recentgames"]');
+
+                return fax[0].attribs['data-url'].split('/').pop();
+            })
+            .then(lolId => {
+                var options = {
+                    uri: 'https://lol.moa.tw/Ajax/recentgames/' + lolId,
+                    transform: function (body) {
+                        return cheerio.load(body);
+                    }
+                };
+                rp(options).then(function ($) {
+                    var fax = $('tr');
+                    let str = '';
+
+                    for(i=0; i+1<fax.length; i+=2){
+                        let gameData = fax[i],
+                            playerData = fax[i+1];
+
+                        // 勝, 咆哮深淵, 隨機單中, 14:28
+                        let gameInfo = gameData.children
+                        .find(child => child.name == 'th').children
+                        .filter(child => child.name == 'span')
+                        .filter((span, i) => {
+                            return (i == 1 || i == 2 || i == 3 || i == 4) ? true : false;
+                        }).map(span => span.children[0].data).join(' ');
+
+                        // console.log(gameInfo)
+
+                        //    Neeko  4/6/16
+                        let playerInfo = playerData.children
+                        .filter(child => { return child.name == 'td' })
+                        .filter((td, i) => {
+                            return (i == 0 || i == 1 ) ? true : false;
+                            // return (i == 0 || i == 1 || i == 4 || i == 6) ? true : false;
+                        })
+                        .map((td, i) => {
+                            if(i==0) return td.children.find(child => child.name == 'div').attribs['data-code'];
+                            if(i==1) return td.children.filter(child => child.name == 'span').map(span => span.children[0].data).join('/');
+                            // if(i==2) return td.children[0].data;
+                            // if(i==3) return td.children[0].data;
+                        }).join(' ');
+
+                        // console.log('   ' + playerInfo);
+                        
+                        str += `${gameInfo}\n   ${playerInfo}\n`;
+                    }
+    
+                    resolve(str);
+                }).catch(function (err) {
+                    throw err;
+                });
+            })
+            .catch(function (err) {
+                reject('找不到該玩家喵');
+            });
         });
     }
 

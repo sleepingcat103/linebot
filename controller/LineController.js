@@ -49,6 +49,10 @@ class LineController {
             } else if (IsEquals(trigger, ['!日幣', '！日幣', '！jp', '!jp'])) {
                 reply(tokens.reply, [ TextMsg(await mainFunctions.JP()) ]);
 
+            } else if (IsEquals(trigger, ['lol', '戰績']) && mainMsg.length > 1) {
+                reply(tokens.reply, [ TextMsg(await mainFunctions.LOL(inputStr)) ]);
+                
+
             // neta 
             } else if (trigger.match(/^.{1}就.{1}$/) != null) {
                 reply(tokens.reply, [ ImageMsg(await mainFunctions.Neta(netaConfig['goldenhair'], mainMsg[0]).then(response => response).catch(error => ''))]);
@@ -125,7 +129,6 @@ class LineController {
             return;
         }
     }
-
 }
 
 module.exports = new LineController();
