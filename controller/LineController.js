@@ -50,7 +50,12 @@ class LineController {
                 reply(tokens.reply, [ TextMsg(await mainFunctions.JP()) ]);
 
             } else if (IsEquals(trigger, ['lol', '戰績']) && mainMsg.length > 1) {
-                reply(tokens.reply, [ TextMsg(await mainFunctions.LOL(inputStr)) ]);
+                let tmp = inputStr.split(' ');   tmp.shift();
+                let playerId = tmp.join(' ');
+                reply(tokens.reply, [ TextMsg(await mainFunctions.LOL(playerId)) ]);
+                
+            } else if (mainMsg.length > 1 && IsEquals(mainMsg[1], ['Lol', 'LOL', 'lol', '戰績'])) {
+                reply(tokens.reply, [ TextMsg(await mainFunctions.LOL(mainMsg[0])) ]);
                 
 
             // neta 
@@ -126,7 +131,7 @@ class LineController {
     
         }catch(e){
             console.log('error', e);
-            return;
+            reply(tokens.reply, [ TextMsg('做不到喵~')]); 
         }
     }
 }
@@ -170,10 +175,10 @@ let reply = (replyToken, message) => {
         messages: message
     }
     lineApi.callLineApi('/v2/bot/message/reply', 'POST', params).then(result => {      
-        console.log('success');
+        console.log('reply success');
     })
     .catch((error) => {
-        console.log('fail')
+        console.log(error)
     })
 }
 let push = (to, message) => {
@@ -182,9 +187,9 @@ let push = (to, message) => {
         messages: message
     }
     lineApi.callLineApi('/v2/bot/message/push', 'POST', params).then(result => {      
-        console.log('success');
+        console.log('push success');
     })
     .catch((error) => {
-        console.log('fail')
+        console.log(error)
     })
 }
