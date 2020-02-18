@@ -408,6 +408,8 @@ class mainFunctions {
                             return (i == 1 || i == 2 || i == 3 || i == 4) ? true : false;
                         }).map(span => span.children[0].data).join(' ');
 
+                        
+
                         // console.log(gameInfo)
 
                         //    Neeko  4/6/16
@@ -429,7 +431,7 @@ class mainFunctions {
                         str += `${gameInfo}\n   ${playerInfo}\n`;
                     }
     
-                    resolve(str);
+                    resolve(str || '找不到紀錄喵 大概很久沒打了');
                 }).catch(function (err) {
                     throw err;
                 });
