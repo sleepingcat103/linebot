@@ -6,7 +6,8 @@ let mainFunctions = require('./mainFunctions');
 // let configs = require('../configs.js');
 // let settings = configs[configs.environment == 'product' ? 'product' : 'develop'];
 
-let netaConfig = require('../public/json/messages.json').images.neta;
+let messages = require('../public/json/messages.json');
+let netaConfig = messages.images.neta;
 
 class LineController {
 
@@ -16,7 +17,7 @@ class LineController {
 
     async dealWithInput(tokens, message) {
         try{
-            console.log(tokens, message)
+            // console.log(tokens, message)
 
             let msgSplitor = (/\S+/ig);
             let inputStr = message.text;
@@ -65,7 +66,7 @@ class LineController {
             } else if (trigger.match(/^.{1}也.{1}$/) != null) {
                 reply(tokens.reply, [ ImageMsg(await mainFunctions.Neta(netaConfig['goldenhair2'], mainMsg[0]+'!').then(response => response).catch(error => ''))]);
             
-            } else if (trigger.match(/^.+\.jpg$/) != null) {
+            } else if (trigger.match(/^.+\.jpg$/) != null && trigger.length < 8)  {
                 reply(tokens.reply, [ ImageMsg(await mainFunctions.Neta(netaConfig['haguya'], inputStr.split('.')[0]).then(response => response).catch(error => ''))]);
     
             //圖片回應

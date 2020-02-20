@@ -22,11 +22,11 @@ class lineApi {
      */
     callLineApi(routing, method, params){
         return LineApi(routing, method, params).then(result => {      
-            console.log('success')      
+            // console.log('success')      
             return Promise.resolve(result);
         })
         .catch((error) => {
-            console.log('fail')
+            // console.log('fail')
             return Promise.reject(error);
         })
     };

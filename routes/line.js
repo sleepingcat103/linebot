@@ -7,7 +7,7 @@ let lineController = require('../controller/LineController')
 router.post('/webhook', (req, res, next) => {
     res.status(200).send();
 
-    console.log(JSON.stringify(req.body, null, 2)); 
+    // console.log(JSON.stringify(req.body, null, 2)); 
     let event = req.body.events[0];
 
     if(!event.type == 'message') return;
