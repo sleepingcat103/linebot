@@ -1,5 +1,5 @@
 
-// var request = require("request");
+let axios = require('axios');
 var rp = require('request-promise');
 var cheerio = require("cheerio");
 var { createCanvas, loadImage, registerFont } = require('canvas');
@@ -250,28 +250,17 @@ class mainFunctions {
     }
 
     JP(){
-        return new Promise(function(resolve, reject){
-            try{
-                var options = {
-                uri: "https://www.esunbank.com.tw/bank/personal/deposit/rate/forex/foreign-exchange-rates",
-                transform: function (body) {
-                    return cheerio.load(body);
-                }
-            };
-            rp(options)
-                .then(function ($) {
-                    var fax = $("#inteTable1 > tbody > .tableContent-light");
-                    var str = "玉山銀行目前日幣的即期賣出匯率為 " + fax[3].children[5].children[0].data + " 換起來! ヽ(`Д´)ノ";
-
-                    resolve(str);
-                })
-                .catch(function (err) {
-                    resolve("Fail to get data.");
-                });
-            }catch(e){
-                resolve(e);
-            }
-        });
+        return axios({
+            url: 'https://www.esunbank.com.tw/api/client/ExchangeRate/LastRateInfo?sc_lang=en',
+            method: 'post',
+        })
+        .then(res => {
+            let rate = res.data.Rates.find(d => d.CCY == 'JPY/TWD').BBoardRate;
+            return '玉山銀行目前日幣的即期賣出匯率為 ' + rate + ' 換起來! ヽ(`Д´)ノ';
+        })
+        .catch(e => {
+            return `Fail to get data.`;
+        })
     }
 
     shortenURL(mainMsg){
