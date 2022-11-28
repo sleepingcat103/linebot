@@ -22,7 +22,6 @@ class mainFunctions {
         this.gotcha = this.gotcha.bind(this);
         this.Luck = this.Luck.bind(this);
         this.JP = this.JP.bind(this);
-        // this.shortenURL = this.shortenURL.bind(this);
         this.googleSearch = this.googleSearch.bind(this);
         this.TWticket = this.TWticket.bind(this);
         this.getTopLevelReply = this.getTopLevelReply.bind(this);
@@ -263,99 +262,48 @@ class mainFunctions {
         })
     }
 
-    shortenURL(mainMsg){
-        return new Promise(function(resolve, reject){
-            try{
-                var s = '';
-                for (i = 1; i < mainMsg.length; i++) {
-                    s = s + mainMsg[i]+ ' ';
-                }
-
-                var rq = require("request");
-                rq.post('https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyD8cFQEtnwmlbV-D1MtmvLjc_rVGFZfg6s', {
-                    json: {
-                        'longUrl': s
-                    }
-                }, function (error, response, body) {
-                    if(error) {
-                        resolve('error' + error);
-                    } else {
-                        resolve(body.id);
-                    }
-                });
-            }catch(e){
-                resolve(e);
-            }
-        });
-        
-    }
 
     googleSearch(mainMsg){
-        return new Promise(function(resolve, reject){
-            try{
-                var tmp = '';
-                for (i = 1; i < mainMsg.length; i++) {
-                    tmp = tmp + mainMsg[i]+ ' ';
-                }
-
-                var s = GetUrl('https://www.google.com.tw/search', {
-                    q: tmp
-                });
-
-                resolve(`${Messages.text['google'].getRandom()}\n${s}`);
-
-                // var rq = require("request");
-                // rq.post('https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyD8cFQEtnwmlbV-D1MtmvLjc_rVGFZfg6s', {
-                //     json: {
-                //         'longUrl': s
-                //     }
-                // }, function (error, response, body) {
-                //     if(error) {
-                //         resolve('error' + error);
-                //     } else {
-                //         resolve(body.id + '/n' + Messages.text['google'].getRandom());
-                //     }
-                // });
-            }catch(e){
-                resolve(e);
+        try{
+            let tmp = '';
+            for (i = 1; i < mainMsg.length; i++) {
+                tmp = tmp + mainMsg[i]+ ' ';
             }
-        });
+
+            let s = `https://www.google.com.tw/search?${new URLSearchParams({ q: tmp }).toString()}`
+
+            return Promise.resolve(`${Messages.text['google'].getRandom()}\n${s}`);
+        } catch(e) {
+            return Promise.resolve(e);
+        }
     }
 
     TWticket(){
-        return new Promise(function(resolve, reject){
-            try{
-                var options = {
-                    uri: 'http://invoice.etax.nat.gov.tw/index.html',
-                    transform: function (body) {
-                        return cheerio.load(body);
-                    }
-                };
-                rp(options).then(function ($) {
-                    var fax = $(".t18Red");
-
-                    console.log(fax)
-
-                    var s =
-                    $("#area1")[0].children[3].children[0].data.halfToFull() +
-                    '\n特別獎：\n    ' +
-                    fax[0].children[0].data.halfToFull() +
-                    '\n特獎：\n    ' +
-                    fax[1].children[0].data.halfToFull() +
-                    '\n頭獎～六獎：\n    ' +
-                    fax[2].children[0].data.replace(/、/g,'\n    ').halfToFull(false) +
-                    '\n增開六獎：\n    ' +
-                    fax[3].children[0].data.replace(/、/g,'\n    ').halfToFull(false);
-
-                    resolve(s);
-                })
-                .catch(function (err) {
-                    resolve(err);
-                });
-            }catch(e){
-                resolve(e);
-            }
-        });
+        return axios({
+            url: 'http://invoice.etax.nat.gov.tw/index.html',
+            method: 'get'
+        })
+        .then(res => cheerio.load(res.data))
+        .then($ => {
+            let title = $('.carousel-item.active');
+            let trs = $(".etw-mobile table.etw-table-bgbox tr");
+            let s = `
+            ${title[0].children[0].attribs.title}
+            特別獎：
+            ${trs[1].children[3].children[1].children[0].children[0].data.halfToFull()}
+            特獎：
+            ${trs[2].children[3].children[1].children[0].children[0].data.halfToFull()}
+            頭獎～六獎：
+            ${(trs[3].children[3].children[1].children[1].children[0].data + trs[3].children[3].children[1].children[2].children[0].data).halfToFull()}
+            ${(trs[3].children[3].children[3].children[1].children[0].data + trs[3].children[3].children[3].children[2].children[0].data).halfToFull()}
+            ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children[3].children[5].children[2].children[0].data).halfToFull()}` ;
+            
+            return s;
+        })
+        .catch(err => {
+            console.log(err);
+            return Promise.resolve('取得資料失敗');
+        })
     }
 
     LOL(playerId){
