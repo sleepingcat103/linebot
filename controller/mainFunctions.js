@@ -258,7 +258,7 @@ class mainFunctions {
             return '玉山銀行目前日幣的即期賣出匯率為 ' + rate + ' 換起來! ヽ(`Д´)ノ';
         })
         .catch(e => {
-            return `Fail to get data.`;
+            throw e;
         })
     }
 
@@ -274,7 +274,7 @@ class mainFunctions {
 
             return Promise.resolve(`${Messages.text['google'].getRandom()}\n${s}`);
         } catch(e) {
-            return Promise.resolve(e);
+            throw e;
         }
     }
 
@@ -287,29 +287,26 @@ class mainFunctions {
         .then($ => {
             let title = $('.carousel-item.active');
             let trs = $(".etw-mobile table.etw-table-bgbox tr");
-            let s = `
-            ${title[0].children[0].attribs.title}
-            特別獎：
-            ${trs[1].children[3].children[1].children[0].children[0].data.halfToFull()}
-            特獎：
-            ${trs[2].children[3].children[1].children[0].children[0].data.halfToFull()}
-            頭獎～六獎：
-            ${(trs[3].children[3].children[1].children[1].children[0].data + trs[3].children[3].children[1].children[2].children[0].data).halfToFull()}
-            ${(trs[3].children[3].children[3].children[1].children[0].data + trs[3].children[3].children[3].children[2].children[0].data).halfToFull()}
-            ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children[3].children[5].children[2].children[0].data).halfToFull()}` ;
+let s = `
+${title[0].children[0].attribs.title}
+    特別獎：
+    ${trs[1].children[3].children[1].children[0].children[0].data.halfToFull()}
+    特獎：
+    ${trs[2].children[3].children[1].children[0].children[0].data.halfToFull()}
+    頭獎～六獎：
+    ${(trs[3].children[3].children[1].children[1].children[0].data + trs[3].children[3].children[1].children[2].children[0].data).halfToFull()}
+    ${(trs[3].children[3].children[3].children[1].children[0].data + trs[3].children[3].children[3].children[2].children[0].data).halfToFull()}
+    ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children[3].children[5].children[2].children[0].data).halfToFull()}` ;
             
             return s;
         })
         .catch(err => {
-            console.log(err);
-            return Promise.resolve('取得資料失敗');
+            throw err;
         })
     }
 
     LOL(playerId){
         return new Promise(function(resolve, reject){
-
-            console.log(playerId, '戰績');
 
             var options = {
                 uri: 'https://lol.moa.tw/summoner/show/' + encodeURI(playerId),
@@ -345,25 +342,17 @@ class mainFunctions {
                             return (i == 1 || i == 2 || i == 3 || i == 4) ? true : false;
                         }).map(span => span.children[0].data).join(' ');
 
-                        
-
-                        // console.log(gameInfo)
-
                         //    Neeko  4/6/16
                         let playerInfo = playerData.children
                         .filter(child => { return child.name == 'td' })
                         .filter((td, i) => {
                             return (i == 0 || i == 1 ) ? true : false;
-                            // return (i == 0 || i == 1 || i == 4 || i == 6) ? true : false;
                         })
                         .map((td, i) => {
                             if(i==0) return td.children.find(child => child.name == 'div').attribs['data-code'];
                             if(i==1) return `[${td.children.filter(child => child.name == 'span').map(span => span.children[0].data).join('/')}]`;
-                            // if(i==2) return td.children[0].data;
-                            // if(i==3) return td.children[0].data;
                         }).join(' ');
 
-                        // console.log('   ' + playerInfo);
                         
                         str += `${gameInfo}\n   ${playerInfo}\n`;
                     }

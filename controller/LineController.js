@@ -130,7 +130,7 @@ class LineController {
                 reply(tokens.reply, [ StickerMsg("2", "29") ]);
             }
     
-        }catch(e){
+        } catch(e) {
             console.log('error', e);
             reply(tokens.reply, [ TextMsg('做不到喵~')]); 
         }
