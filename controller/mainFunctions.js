@@ -287,16 +287,15 @@ class mainFunctions {
         .then($ => {
             let title = $('.carousel-item.active');
             let trs = $(".etw-mobile table.etw-table-bgbox tr");
-let s = `
-${title[0].children[0].attribs.title}
-    特別獎：
-    ${trs[1].children[3].children[1].children[0].children[0].data.halfToFull()}
-    特獎：
-    ${trs[2].children[3].children[1].children[0].children[0].data.halfToFull()}
-    頭獎～六獎：
-    ${(trs[3].children[3].children[1].children[1].children[0].data + trs[3].children[3].children[1].children[2].children[0].data).halfToFull()}
-    ${(trs[3].children[3].children[3].children[1].children[0].data + trs[3].children[3].children[3].children[2].children[0].data).halfToFull()}
-    ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children[3].children[5].children[2].children[0].data).halfToFull()}` ;
+let s = `${title[0].children[0].attribs.title}
+特別獎：
+${trs[1].children[3].children[1].children[0].children[0].data.halfToFull()}
+特獎：
+${trs[2].children[3].children[1].children[0].children[0].data.halfToFull()}
+頭獎～六獎：
+${(trs[3].children[3].children[1].children[1].children[0].data + trs[3].children[3].children[1].children[2].children[0].data).halfToFull()}
+${(trs[3].children[3].children[3].children[1].children[0].data + trs[3].children[3].children[3].children[2].children[0].data).halfToFull()}
+${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children[3].children[5].children[2].children[0].data).halfToFull()}` ;
             
             return s;
         })
