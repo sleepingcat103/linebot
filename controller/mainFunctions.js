@@ -1,4 +1,6 @@
 
+console.log(process.env)
+
 let axios = require('axios');
 var rp = require('request-promise');
 var cheerio = require("cheerio");
