@@ -156,7 +156,7 @@ let IsMatches = (target, array) => {
 let TextMsg = (text) => {
     return {
         type: "text",
-        text: text
+        text: text.slice(0, 4999)
     }
 }
 let ImageMsg = (url) => {

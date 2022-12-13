@@ -412,9 +412,9 @@ ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children
 
     async openaiText(mainMsg) {
         
-        let tmp = '';
+        let text = '';
         for (i = 1; i < mainMsg.length; i++) {
-            tmp = tmp + mainMsg[i]+ ' ';
+            text = text + mainMsg[i]+ ' ';
         }
         const completion = await openai.createCompletion({
             model: "text-davinci-003",
