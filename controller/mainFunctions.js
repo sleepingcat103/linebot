@@ -7,8 +7,8 @@ var fs = require('fs');
 var imgur = require('imgur');
 
 const { Configuration, OpenAIApi } = require("openai");
-let openAIApiKey = process.env.openAIApiKey;
-const configuration = new Configuration({ openAIApiKey });
+let { OPENAI_APIKEY }  = process.env;
+const configuration = new Configuration({ apiKey: OPENAI_APIKEY });
 const openai = new OpenAIApi(configuration);
 
 var Messages = require('../public/json/messages.json');
