@@ -7,8 +7,8 @@ var fs = require('fs');
 var imgur = require('imgur');
 
 const { Configuration, OpenAIApi } = require("openai");
-let OpenAIApiKey = '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';
-const configuration = new Configuration({ OpenAIApiKey });
+let openAIApiKey = process.env.openAIApiKey;
+const configuration = new Configuration({ openAIApiKey });
 const openai = new OpenAIApi(configuration);
 
 var Messages = require('../public/json/messages.json');
@@ -410,7 +410,12 @@ ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children
         });
     }
 
-    async openaiText(text) {
+    async openaiText(mainMsg) {
+        
+        let tmp = '';
+        for (i = 1; i < mainMsg.length; i++) {
+            tmp = tmp + mainMsg[i]+ ' ';
+        }
         const completion = await openai.createCompletion({
             model: "text-davinci-003",
             prompt: text,
