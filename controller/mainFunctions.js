@@ -424,7 +424,9 @@ ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children
             // stream: true
             max_tokens: 1024
         });
-        return completion.data.choices[0].text;
+
+        let result = `${text} =>\n\n${completion.data.choices[0].text.trim()}`;
+        return result;
     }
 }
 module.exports = new mainFunctions();
