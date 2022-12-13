@@ -6,6 +6,11 @@ var { createCanvas, loadImage, registerFont } = require('canvas');
 var fs = require('fs');
 var imgur = require('imgur');
 
+const { Configuration, OpenAIApi } = require("openai");
+let OpenAIApiKey = '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';
+const configuration = new Configuration({ OpenAIApiKey });
+const openai = new OpenAIApi(configuration);
+
 var Messages = require('../public/json/messages.json');
 var rate = {upSSR: 1.0, SSR: 2.0, SR: 20.0, R: 100.0};
 var i, j;
@@ -403,6 +408,16 @@ ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children
                 resolve({});
             }
         });
+    }
+
+    async openaiText(text) {
+        const completion = await openai.createCompletion({
+            model: "text-davinci-003",
+            prompt: text,
+            // stream: true
+            max_tokens: 1024
+        });
+        return completion.data.choices[0].text;
     }
 }
 module.exports = new mainFunctions();
