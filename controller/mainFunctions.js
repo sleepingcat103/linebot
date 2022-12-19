@@ -412,7 +412,7 @@ ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children
         });
     }
 
-    async openaiText(mainMsg) {
+    async openaiText(mainMsg, user) {
         
         let text = '';
         for (i = 1; i < mainMsg.length; i++) {
@@ -422,7 +422,8 @@ ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children
             model: "text-davinci-003",
             prompt: text,
             // stream: true
-            max_tokens: 1024
+            max_tokens: 1024,
+            user: `line-cateMeow-${user}`
         });
 
         let result = `${text} =>\n\n${completion.data.choices[0].text.trim()}`;
