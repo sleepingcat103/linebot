@@ -59,7 +59,7 @@ class LineController {
                 reply(tokens.reply, [ TextMsg(await mainFunctions.LOL(mainMsg[0])) ]);
 
             } else if (mainMsg.length > 1 && IsEquals(trigger, ['T', 'AI', 'Ai', 'ai'])) {
-                reply(tokens.reply, [ TextMsg(await mainFunctions.openaiText(mainMsg)) ]);
+                reply(tokens.reply, [ TextMsg(await mainFunctions.openaiText(mainMsg, tokens.push)) ]);
                 
 
             // neta 
