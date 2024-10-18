@@ -5246,8 +5246,8 @@ class SeededRandom {
 
 class PKMN {
   // Data
-  #types = ['一般','格斗','飛行','毒','地上','岩石','蟲','幽靈','鋼','???','炎','水','草','電','超能力','冰','龍','惡'];
-  #damage = [
+  static types = ['一般','格斗','飛行','毒','地上','岩石','蟲','幽靈','鋼','???','炎','水','草','電','超能力','冰','龍','惡'];
+  static damage = [
     [1,1,1,1,1,0.5,1,0,0.5,1,1,1,1,1,1,1,1,1],
     [2,1,0.5,0.5,1,2,0.5,0,2,1,1,1,1,1,0.5,2,1,2],
     [1,2,1,1,1,0.5,2,1,0.5,1,1,1,2,0.5,1,1,1,1],
@@ -5267,7 +5267,7 @@ class PKMN {
     [1,1,1,1,1,1,1,1,0.5,1,1,1,1,1,1,1,2,1],
     [1,0.5,1,1,1,1,1,2,0.5,1,1,1,1,1,2,1,1,0.5]
   ];
-  #natures = [
+  static natures = [
     /* 努力 */ [1,1,1,1,1],
     /* 孤独 */ [1,1,1,1,1],
     /* 勇敢 */ [1,1,1,1,1],
@@ -5294,7 +5294,7 @@ class PKMN {
     /* 慎重 */ [1,1,1.1,1,0.9],
     /* 浮躁 */ [1,1,1,1.1,0.9]
   ];
-  #naturesChinese = ['努力','孤獨','勇敢','固執','調皮','大膽','坦率','悠閒','淘氣','樂天','膽小','急躁','認真','開朗','天真','保守','穩重','冷静','害羞','馬虎','沉著','溫馴','狂妄','慎重','浮躁'];
+  static naturesChinese = ['努力','孤獨','勇敢','固執','調皮','大膽','坦率','悠閒','淘氣','樂天','膽小','急躁','認真','開朗','天真','保守','穩重','冷静','害羞','馬虎','沉著','溫馴','狂妄','慎重','浮躁'];
 
   // seed
   #seed;
@@ -5345,7 +5345,7 @@ class PKMN {
     this.#name = pkmn.name;
     this.#type1 = pkmn.type1;
     this.#type2 = pkmn.type2;
-    this.#nature = Math.floor(this.seeder.random() * this.#natures.length);
+    this.#nature = Math.floor(this.seeder.random() * PKMN.natures.length);
     this.#lv = Math.floor(this.#randomNormal(0, 100, config.lv.mid, config.lv.close));
 
     this.#baseHP = pkmn.race.hp;
@@ -5383,13 +5383,76 @@ class PKMN {
     this.#prev = this.#calculatePR(evTotal, 0, 510, config.ev.mid, config.ev.close);
   }
 
-  static fight(pkm1, pkm2) {
+  static fight(pokemon1, pokemon2) {
 
-    const actions = getActions(pkm1.spd, pkm2.spd, 20);
+    const maxRounds = 20;
+    const actions = getActions(pkm1.spd, pkm2.spd, maxRounds);
+    const rounds = ['戰鬥開始'];
 
-    while (pkm1.hp > 0 && pkm2.hp > 0) {
-      // to be defined
+    pkm1 = pokemon1.getStatus();
+    pkm2 = pokemon2.getStatus();
+    // 攻擊方主屬打防守兩屬性
+    type1Ratio = pkm2.type1 == pkm2.type2 ? PKMN.damage[pkm1.type1][pkm2.type1] : PKMN.damage[pkm1.type1][pkm2.type1] * PKMN.damage[pkm1.type1][pkm2.type2];
+    type2Ratio = pkm1.type1 == pkm1.type2 ? PKMN.damage[pkm2.type1][pkm1.type1] : PKMN.damage[pkm2.type1][pkm1.type1] * PKMN.damage[pkm2.type1][pkm1.type2];  
+
+    if(pkm1.name == pkm1.name) {
+      pkm1.name = pkm1.name + '(A)';
+      pkm2.name = pkm2.name + '(B)';
     }
+
+    // fight
+    for(let i=0; i<maxRounds; i++) {
+      if(pkm1.hp <= 0 && pkm2.hp <= 0) break;
+
+      let attacker, defenser, ratio;
+
+      if(actions[i] == 'X') {
+        attacker = pkm1;
+        defenser = pkm2;
+        ratio = type1Ratio;
+      } else if(actions[i] == 'Y') {
+        attacker = pkm2;
+        defenser = pkm1;
+        ratio = type2Ratio;
+      }
+      
+      let atk = ((attacker.atk + attacker.spatk) / 6); // 抓一個比例
+        atk = atk * (0.5 + Math.random() * 0.5); // 亂數 50~100 %
+        atk = atk * ratio; // 種族加成
+        atk = Math.floor(atk) || 1;
+      let def = def = ((attacker.def + attacker.spdef) / 2); // 抓一個比例
+        def = def * (0.5 + Math.random() * 0.5); // 亂數 50~100 %
+        // def = def * ; // 種族加成
+        def = Math.floor(def) || 0;
+
+      defenser.hp -= atk - def || 1;
+      defenser.hp = defenser.hp || 0;
+      rounds.push(`${attacker.name} 發動攻擊! ${defenser} 血量: ${defenser.hp}(-${atk - def || 1})`);
+    }
+
+    // result
+    if(pkm1.hp > pkm2.hp) {
+      rounds.push(`勝方: ${pkm1.name}, 敗方${pkm2.name}`);
+    } else if(pkm1.hp < pkm2.hp) {
+      rounds.push(`勝方: ${pkm2.name}, 敗方${pkm1.name}`);
+    } else {
+      rounds.push(`平手!!! 精彩的對戰`);
+    }
+
+    // carousel + text
+    return [
+      {
+        "type": "carousel",
+        "contents": [
+          pokemon1.getLineReply().contents,
+          pokemon2.getLineReply().contents,
+        ]
+      },
+      {
+        type: 'text',
+        text: rounds.join('\n')
+      }
+    ]
 
     function getActions(a, b, n) {
       const freqX = b;
@@ -5408,7 +5471,13 @@ class PKMN {
               actions = actions.concat(Array(probActionY - actionY).fill('Y'));
               actionY = probActionY
               if(counter % freqY == 0) {
-                  actions[actions.length - 1] = 'Z'
+                if(freqX > freqY) {
+                  actions.push('X');
+                } else {
+                  actions[actions.length-1] = 'X';
+                  actions.push('Y');
+                }
+                actionX++;
               }
           } else {
               actions.push('X');
@@ -5511,7 +5580,7 @@ class PKMN {
   }
 
   readStatus() {
-    const natureAdj = this.#natures[this.#nature];
+    const natureAdj = PKMN.natures[this.#nature];
     const { hp, atk, def, spatk, spdef, spd } = this.getStatus();
 
     return {
@@ -5520,8 +5589,8 @@ class PKMN {
 
       no: this.#no,
       name: this.#name,
-      type: this.#type1 == this.#type2 ? this.#types[this.#type1] : this.#types[this.#type1] + '、' + this.#types[this.#type2],
-      nature: this.#naturesChinese[this.#nature],
+      type: this.#type1 == this.#type2 ? PKMN.types[this.#type1] : PKMN.types[this.#type1] + '、' + PKMN.types[this.#type2],
+      nature: PKMN.naturesChinese[this.#nature],
 
       lv: this.#lv,
 
@@ -5544,15 +5613,18 @@ class PKMN {
 
   getStatus() {
 
-    const natureAdj = this.#natures[this.#nature];
+    const natureAdj = PKMN.natures[this.#nature];
 
     return {
+      name: this.#name,
       hp: calcHP(this.#no, this.#lv, this.#baseHP, this.#ivHP, this.#evHP),
       atk: calcATK(this.#no, this.#lv, this.#baseATK, this.#ivATK, this.#evATK, natureAdj[0]),
       def: calcDEF(this.#no, this.#lv, this.#baseDEF, this.#ivDEF, this.#evDEF, natureAdj[1]),
       spatk: calcSPATK(this.#no, this.#lv, this.#baseSPATK, this.#ivSPATK, this.#evSPATK, natureAdj[2]),
       spdef: calcSPDEF(this.#no, this.#lv, this.#baseSPDEF, this.#ivSPDEF, this.#evSPDEF, natureAdj[3]),
       spd: calcSPD(this.#no, this.#lv, this.#baseSPD, this.#ivSPD, this.#evSPD, natureAdj[4]),
+      type1: this.#type1,
+      type2: this.#type2,
     }
 
     function calcHP(id, lv, base, iv, ev) {

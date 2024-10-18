@@ -63,6 +63,8 @@ class LineController {
 
             } else if (IsEquals(trigger, ['!抓', '!抓寶', '!皮卡丘', '!皮神'])) {
                 reply(tokens.reply, [ mainFunctions.pokemon(mainMsg[1] || '') ]);
+            } else if (IsEquals(trigger, ['!對戰', '!決鬥',])) {
+                reply(tokens.reply, mainFunctions.pokemonFight(mainMsg[1], mainMsg[2]) );
 
             // neta 
             } else if (trigger.match(/^.{1}就.{1}$/) != null) {

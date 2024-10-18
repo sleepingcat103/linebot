@@ -409,8 +409,14 @@ class mainFunctions {
     // }
 
     pokemon(seed) {
-        const pkmn = pokemon.getDaZe();
+        const pkmn = pokemon.getDaZe(seed);
         return pkmn.getLineReply();
+    }
+
+    pokemonFight(seed1, seed2) {
+        const pkmn1 = pokemon.getDaZe(seed1);
+        const pkmn2 = pokemon.getDaZe(seed2);
+        return pkmn.fight(pkmn1, pkmn2);
     }
 }
 module.exports = new mainFunctions();
