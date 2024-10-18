@@ -8,10 +8,7 @@ var { createCanvas, loadImage, registerFont } = require('canvas');
 var fs = require('fs');
 var imgur = require('imgur');
 
-const { Configuration, OpenAIApi } = require("openai");
-let { OPENAI_APIKEY }  = process.env;
-const configuration = new Configuration({ apiKey: OPENAI_APIKEY });
-const openai = new OpenAIApi(configuration);
+const pokemon = require('../service/pokemon');
 
 var Messages = require('../public/json/messages.json');
 var rate = {upSSR: 1.0, SSR: 2.0, SR: 20.0, R: 100.0};
@@ -28,10 +25,10 @@ class mainFunctions {
         this.getImage = this.getImage.bind(this);
         this.gotcha = this.gotcha.bind(this);
         this.Luck = this.Luck.bind(this);
-        this.JP = this.JP.bind(this);
+        // this.JP = this.JP.bind(this);
         this.googleSearch = this.googleSearch.bind(this);
-        this.TWticket = this.TWticket.bind(this);
-        this.getTopLevelReply = this.getTopLevelReply.bind(this);
+        // this.TWticket = this.TWticket.bind(this);
+        // this.getTopLevelReply = this.getTopLevelReply.bind(this);
     }
 
     // 文字回覆
@@ -255,20 +252,19 @@ class mainFunctions {
         
     }
 
-    JP(){
-        return axios({
-            url: 'https://www.esunbank.com.tw/api/client/ExchangeRate/LastRateInfo?sc_lang=en',
-            method: 'post',
-        })
-        .then(res => {
-            let rate = res.data.Rates.find(d => d.CCY == 'JPY/TWD').BBoardRate;
-            return '玉山銀行目前日幣的即期賣出匯率為 ' + rate + ' 換起來! ヽ(`Д´)ノ';
-        })
-        .catch(e => {
-            throw e;
-        })
-    }
-
+    // JP(){
+    //     return axios({
+    //         url: 'https://www.esunbank.com.tw/api/client/ExchangeRate/LastRateInfo?sc_lang=en',
+    //         method: 'post',
+    //     })
+    //     .then(res => {
+    //         let rate = res.data.Rates.find(d => d.CCY == 'JPY/TWD').BBoardRate;
+    //         return '玉山銀行目前日幣的即期賣出匯率為 ' + rate + ' 換起來! ヽ(`Д´)ノ';
+    //     })
+    //     .catch(e => {
+    //         throw e;
+    //     })
+    // }
 
     googleSearch(mainMsg){
         try{
@@ -285,149 +281,136 @@ class mainFunctions {
         }
     }
 
-    TWticket(){
-        return axios({
-            url: 'http://invoice.etax.nat.gov.tw/index.html',
-            method: 'get'
-        })
-        .then(res => cheerio.load(res.data))
-        .then($ => {
-            let title = $('.carousel-item.active');
-            let trs = $(".etw-mobile table.etw-table-bgbox tr");
-let s = `${title[0].children[0].attribs.title}
-特別獎：
-${trs[1].children[3].children[1].children[0].children[0].data.halfToFull()}
-特獎：
-${trs[2].children[3].children[1].children[0].children[0].data.halfToFull()}
-頭獎～六獎：
-${(trs[3].children[3].children[1].children[1].children[0].data + trs[3].children[3].children[1].children[2].children[0].data).halfToFull()}
-${(trs[3].children[3].children[3].children[1].children[0].data + trs[3].children[3].children[3].children[2].children[0].data).halfToFull()}
-${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children[3].children[5].children[2].children[0].data).halfToFull()}` ;
+//     TWticket(){
+//         return axios({
+//             url: 'http://invoice.etax.nat.gov.tw/index.html',
+//             method: 'get'
+//         })
+//         .then(res => cheerio.load(res.data))
+//         .then($ => {
+//             let title = $('.carousel-item.active');
+//             let trs = $(".etw-mobile table.etw-table-bgbox tr");
+// let s = `${title[0].children[0].attribs.title}
+// 特別獎：
+// ${trs[1].children[3].children[1].children[0].children[0].data.halfToFull()}
+// 特獎：
+// ${trs[2].children[3].children[1].children[0].children[0].data.halfToFull()}
+// 頭獎～六獎：
+// ${(trs[3].children[3].children[1].children[1].children[0].data + trs[3].children[3].children[1].children[2].children[0].data).halfToFull()}
+// ${(trs[3].children[3].children[3].children[1].children[0].data + trs[3].children[3].children[3].children[2].children[0].data).halfToFull()}
+// ${(trs[3].children[3].children[5].children[1].children[0].data + trs[3].children[3].children[5].children[2].children[0].data).halfToFull()}` ;
             
-            return s;
-        })
-        .catch(err => {
-            throw err;
-        })
-    }
+//             return s;
+//         })
+//         .catch(err => {
+//             throw err;
+//         })
+//     }
 
-    LOL(playerId){
-        return new Promise(function(resolve, reject){
+    // LOL(playerId){
+    //     return new Promise(function(resolve, reject){
 
-            var options = {
-                uri: 'https://lol.moa.tw/summoner/show/' + encodeURI(playerId),
-                transform: function (body) {
-                    return cheerio.load(body);
-                }
-            };
-            rp(options).then(function ($) {
-                var fax = $('a[href="#tabs-recentgames"]');
+    //         var options = {
+    //             uri: 'https://lol.moa.tw/summoner/show/' + encodeURI(playerId),
+    //             transform: function (body) {
+    //                 return cheerio.load(body);
+    //             }
+    //         };
+    //         rp(options).then(function ($) {
+    //             var fax = $('a[href="#tabs-recentgames"]');
 
-                return fax[0].attribs['data-url'].split('/').pop();
-            })
-            .then(lolId => {
-                var options = {
-                    uri: 'https://lol.moa.tw/Ajax/recentgames/' + lolId,
-                    transform: function (body) {
-                        return cheerio.load(body);
-                    }
-                };
-                rp(options).then(function ($) {
-                    var fax = $('tr');
-                    let str = '';
+    //             return fax[0].attribs['data-url'].split('/').pop();
+    //         })
+    //         .then(lolId => {
+    //             var options = {
+    //                 uri: 'https://lol.moa.tw/Ajax/recentgames/' + lolId,
+    //                 transform: function (body) {
+    //                     return cheerio.load(body);
+    //                 }
+    //             };
+    //             rp(options).then(function ($) {
+    //                 var fax = $('tr');
+    //                 let str = '';
 
-                    for(i=0; i+1<fax.length; i+=2){
-                        let gameData = fax[i],
-                            playerData = fax[i+1];
+    //                 for(i=0; i+1<fax.length; i+=2){
+    //                     let gameData = fax[i],
+    //                         playerData = fax[i+1];
 
-                        // 勝, 咆哮深淵, 隨機單中, 14:28
-                        let gameInfo = gameData.children
-                        .find(child => child.name == 'th').children
-                        .filter(child => child.name == 'span')
-                        .filter((span, i) => {
-                            return (i == 1 || i == 2 || i == 3 || i == 4) ? true : false;
-                        }).map(span => span.children[0].data).join(' ');
+    //                     // 勝, 咆哮深淵, 隨機單中, 14:28
+    //                     let gameInfo = gameData.children
+    //                     .find(child => child.name == 'th').children
+    //                     .filter(child => child.name == 'span')
+    //                     .filter((span, i) => {
+    //                         return (i == 1 || i == 2 || i == 3 || i == 4) ? true : false;
+    //                     }).map(span => span.children[0].data).join(' ');
 
-                        //    Neeko  4/6/16
-                        let playerInfo = playerData.children
-                        .filter(child => { return child.name == 'td' })
-                        .filter((td, i) => {
-                            return (i == 0 || i == 1 ) ? true : false;
-                        })
-                        .map((td, i) => {
-                            if(i==0) return td.children.find(child => child.name == 'div').attribs['data-code'];
-                            if(i==1) return `[${td.children.filter(child => child.name == 'span').map(span => span.children[0].data).join('/')}]`;
-                        }).join(' ');
+    //                     //    Neeko  4/6/16
+    //                     let playerInfo = playerData.children
+    //                     .filter(child => { return child.name == 'td' })
+    //                     .filter((td, i) => {
+    //                         return (i == 0 || i == 1 ) ? true : false;
+    //                     })
+    //                     .map((td, i) => {
+    //                         if(i==0) return td.children.find(child => child.name == 'div').attribs['data-code'];
+    //                         if(i==1) return `[${td.children.filter(child => child.name == 'span').map(span => span.children[0].data).join('/')}]`;
+    //                     }).join(' ');
 
                         
-                        str += `${gameInfo}\n   ${playerInfo}\n`;
-                    }
+    //                     str += `${gameInfo}\n   ${playerInfo}\n`;
+    //                 }
     
-                    resolve(str || '找不到紀錄喵 大概很久沒打了');
-                }).catch(function (err) {
-                    throw err;
-                });
-            })
-            .catch(function (err) {
-                reject('找不到該玩家喵');
-            });
-        });
-    }
+    //                 resolve(str || '找不到紀錄喵 大概很久沒打了');
+    //             }).catch(function (err) {
+    //                 throw err;
+    //             });
+    //         })
+    //         .catch(function (err) {
+    //             reject('找不到該玩家喵');
+    //         });
+    //     });
+    // }
 
-    getTopLevelReply(){
-        return new Promise(function(resolve, reject){
-            try{
-                var selectQuery = 'select A,B,C ';
-                sheetrock({
-                    url: 'https://docs.google.com/spreadsheets/d/15lPzgW8bIymnVwwIHxYPfRJfh7pzC69QeKL4o5G1VSk/edit#gid=0',
-                    query: selectQuery,
-                    callback: function (error, options, response) {
-                        if(error) {
-                            console.log('Fail to get data: ' +　error);
-                            resolve({});
-                        } else {
-                            var result = {}
-                            if(response.rows.length>1){
-                                for(i=1; i<response.rows.length; i++){
-                                    target = JSON.stringify(response.rows[i].toString().replace('Row ',''));
-                                    console.log(target)
-                                    if(target.cellsArray.length < 3){
-                                        return;
-                                    }else{
-                                        result[target.cellsArray[0]] = {
-                                            msg: target.cellsArray[1],
-                                            type: target.cellsArray[2]
-                                        }
-                                    }
-                                }
-                            }
-                            console.log(result);
-                            resolve(result);
-                        }
-                    }
-                });
-            }catch(e){
-                resolve({});
-            }
-        });
-    }
+    // getTopLevelReply(){
+    //     return new Promise(function(resolve, reject){
+    //         try{
+    //             var selectQuery = 'select A,B,C ';
+    //             sheetrock({
+    //                 url: 'https://docs.google.com/spreadsheets/d/15lPzgW8bIymnVwwIHxYPfRJfh7pzC69QeKL4o5G1VSk/edit#gid=0',
+    //                 query: selectQuery,
+    //                 callback: function (error, options, response) {
+    //                     if(error) {
+    //                         console.log('Fail to get data: ' +　error);
+    //                         resolve({});
+    //                     } else {
+    //                         var result = {}
+    //                         if(response.rows.length>1){
+    //                             for(i=1; i<response.rows.length; i++){
+    //                                 target = JSON.stringify(response.rows[i].toString().replace('Row ',''));
+    //                                 console.log(target)
+    //                                 if(target.cellsArray.length < 3){
+    //                                     return;
+    //                                 }else{
+    //                                     result[target.cellsArray[0]] = {
+    //                                         msg: target.cellsArray[1],
+    //                                         type: target.cellsArray[2]
+    //                                     }
+    //                                 }
+    //                             }
+    //                         }
+    //                         console.log(result);
+    //                         resolve(result);
+    //                     }
+    //                 }
+    //             });
+    //         }catch(e){
+    //             resolve({});
+    //         }
+    //     });
+    // }
 
-    async openaiText(mainMsg, user) {
-        
-        let text = '';
-        for (i = 1; i < mainMsg.length; i++) {
-            text = text + mainMsg[i]+ ' ';
-        }
-        const completion = await openai.createCompletion({
-            model: "text-davinci-003",
-            prompt: text,
-            // stream: true
-            max_tokens: 1024,
-            user: `line-cateMeow-${user}`
-        });
-
-        let result = `${text} =>\n\n${completion.data.choices[0].text.trim()}`;
-        return result;
+    pokemon(seed) {
+        const pkmn = pokemon.getDaZe();
+        return pkmn.getLineReply();
     }
 }
 module.exports = new mainFunctions();

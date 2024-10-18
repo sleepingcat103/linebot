@@ -41,26 +41,28 @@ class LineController {
             } else if (IsMatches(trigger, ["運氣", "運勢"])) {
                 reply(tokens.reply, [ TextMsg(await mainFunctions.Luck(mainMsg[0])) ]);
     
-            } else if (IsEquals(trigger, ['統一發票','發票','!統一發票','!發票']) && mainMsg.length == 1) {
-                reply(tokens.reply, [ TextMsg(await mainFunctions.TWticket()) ]);
+            // } else if (IsEquals(trigger, ['統一發票','發票','!統一發票','!發票']) && mainMsg.length == 1) {
+            //     reply(tokens.reply, [ TextMsg(await mainFunctions.TWticket()) ]);
     
             } else if (IsEquals(trigger, ['搜尋','google','谷哥']) && mainMsg.length > 1){
                 reply(tokens.reply, [ TextMsg(await mainFunctions.googleSearch(mainMsg)) ]);
             
-            } else if (IsEquals(trigger, ['!日幣', '！日幣', '！jp', '!jp'])) {
-                reply(tokens.reply, [ TextMsg(await mainFunctions.JP()) ]);
+            // } else if (IsEquals(trigger, ['!日幣', '！日幣', '！jp', '!jp'])) {
+            //     reply(tokens.reply, [ TextMsg(await mainFunctions.JP()) ]);
 
-            } else if (IsEquals(trigger, ['lol', '戰績']) && mainMsg.length > 1) {
-                let tmp = inputStr.split(' ');   tmp.shift();
-                let playerId = tmp.join(' ');
-                reply(tokens.reply, [ TextMsg(await mainFunctions.LOL(playerId)) ]);
+            // } else if (IsEquals(trigger, ['lol', '戰績']) && mainMsg.length > 1) {
+            //     let tmp = inputStr.split(' ');   tmp.shift();
+            //     let playerId = tmp.join(' ');
+            //     reply(tokens.reply, [ TextMsg(await mainFunctions.LOL(playerId)) ]);
                 
-            } else if (mainMsg.length > 1 && IsEquals(mainMsg[1], ['Lol', 'LOL', 'lol', '戰績'])) {
-                reply(tokens.reply, [ TextMsg(await mainFunctions.LOL(mainMsg[0])) ]);
+            // } else if (mainMsg.length > 1 && IsEquals(mainMsg[1], ['Lol', 'LOL', 'lol', '戰績'])) {
+            //     reply(tokens.reply, [ TextMsg(await mainFunctions.LOL(mainMsg[0])) ]);
 
-            } else if (mainMsg.length > 1 && IsEquals(trigger, ['T', 'AI', 'Ai', 'ai'])) {
-                reply(tokens.reply, [ TextMsg(await mainFunctions.openaiText(mainMsg, tokens.push)) ]);
-                
+            // } else if (mainMsg.length > 1 && IsEquals(trigger, ['T', 'AI', 'Ai', 'ai'])) {
+            //     reply(tokens.reply, [ TextMsg(await mainFunctions.openaiText(mainMsg, tokens.push)) ]);
+
+            } else if (IsEquals(trigger, ['!抓寶', '!皮卡丘'])) {
+                reply(tokens.reply, [ TextMsg(await mainFunctions.pokemon(mainMsg[1] || '')) ]);
 
             // neta 
             } else if (trigger.match(/^.{1}就.{1}$/) != null) {
@@ -73,7 +75,7 @@ class LineController {
                 reply(tokens.reply, [ ImageMsg(await mainFunctions.Neta(netaConfig['haguya'], inputStr.split('.')[0]).then(response => response).catch(error => ''))]);
     
             //圖片回應
-            } else if (IsEquals(trigger, ['抽老婆']) && mainMsg.length == 1) {
+            } else if (IsEquals(trigger, ['抽老婆', '!老婆']) && mainMsg.length == 1) {
                 reply(tokens.reply, [ ImageMsg(mainFunctions.new_waifu()) ]);
     
             } else if (IsEquals(trigger, ['臭貓', '小方方', '方董']) || IsEquals(mainMsg[0], ['FQ', 'FK'])) {
