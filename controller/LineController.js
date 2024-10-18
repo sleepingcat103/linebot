@@ -62,7 +62,7 @@ class LineController {
             //     reply(tokens.reply, [ TextMsg(await mainFunctions.openaiText(mainMsg, tokens.push)) ]);
 
             } else if (IsEquals(trigger, ['!抓', '!抓寶', '!皮卡丘', '!皮神'])) {
-                reply(tokens.reply, [ TextMsg(await mainFunctions.pokemon(mainMsg[1] || '')) ]);
+                reply(tokens.reply, [ mainFunctions.pokemon(mainMsg[1] || '') ]);
 
             // neta 
             } else if (trigger.match(/^.{1}就.{1}$/) != null) {
