@@ -5636,268 +5636,272 @@ class PKMN {
 
     return {
       "type": "flex",
-      "altText": "123 出彩好簡單",
+      "altText": `就決定是你了! ${data.name}!`,
       "contents": {
         "type": "bubble",
-        "body": {
+        "size": "kilo",
+        "header": {
           "type": "box",
-          "layout": "vertical",
-          "spacing": "sm",
+          "layout": "horizontal",
           "contents": [
             {
-              "type": "bubble",
-              "size": "giga",
-              "header": {
-                "type": "box",
-                "layout": "horizontal",
-                "contents": [
-                  {
-                    "type": "text",
-                    "text": `no. ${data.no}`,
-                    "color": "#AAAAAA",
-                    "weight": "bold",
-                    "size": "sm"
-                  },
-                  {
-                    "type": "text",
-                    "text": `#${data.seed}`,
-                    "weight": "bold",
-                    "size": "sm",
-                    "color": "#AAAAAA",
-                    "contents": [],
-                    "align": "end"
-                  }
-                ]
-              },
-              "hero": {
-                "type": "box",
-                "layout": "vertical",
-                "contents": [
-                  {
-                    "type": "box",
-                    "layout": "horizontal",
-                    "spacing": "md",
-                    "contents": [
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "flex": 1,
-                        "contents": [
-                          {
-                            "type": "image",
-                            "url": `https://www.legendarypokemon.net/images/sprites/bw/${new String(data.no).padStart('3', '0')}.png`,
-                            "gravity": "bottom",
-                            "size": "sm",
-                            "aspectRatio": "4:3",
-                            "aspectMode": "cover"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "flex": 2,
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": `Lv. ${data.lv} ${data.name}`,
-                            "flex": 1,
-                            "contents": []
-                          },
-                          {
-                            "type": "text",
-                            "text": `屬性: ${data.type}  性格: ${data.nature}`,
-                            "size": "xs",
-                            "flex": 1,
-                            "contents": []
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "body": {
-                "type": "box",
-                "layout": "vertical",
-                "spacing": "md",
-                "contents": [
-                  {
-                    "type": "box",
-                    "layout": "horizontal",
-                    "contents": [
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": "HP",
-                            "weight": "bold"
-                          }
-                        ],
-                        "alignItems": "center"
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": "ATK",
-                            "weight": "bold"
-                          }
-                        ],
-                        "alignItems": "center"
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": "DEF",
-                            "weight": "bold"
-                          }
-                        ],
-                        "alignItems": "center"
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": "SP.A",
-                            "weight": "bold"
-                          }
-                        ],
-                        "alignItems": "center"
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": "SP.D",
-                            "weight": "bold"
-                          }
-                        ],
-                        "alignItems": "center"
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": "SPD",
-                            "weight": "bold"
-                          }
-                        ],
-                        "alignItems": "center"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "box",
-                    "layout": "horizontal",
-                    "contents": [
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": `${data.hp}`
-                          }
-                        ],
-                        "alignItems": "center"
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": `${data.atk}`
-                          }
-                        ],
-                        "alignItems": "center"
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": `${data.def}`
-                          }
-                        ],
-                        "alignItems": "center"
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": `${data.spatk}`
-                          }
-                        ],
-                        "alignItems": "center"
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": `${data.spdef}`
-                          }
-                        ],
-                        "alignItems": "center"
-                      },
-                      {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "text": `${data.spd}`
-                          }
-                        ],
-                        "alignItems": "center"
-                      }
-                    ]
-                  }
-                ]
-              },
-              "footer": {
-                "type": "box",
-                "layout": "horizontal",
-                "contents": [
-                  {
-                    "type": "text",
-                    "text": `PR(等級/個體/努力): ${data.prlv}/${data.priv}/${data.prev}`,
-                    "align": "end",
-                    "color": "#AAAAAA",
-                    "weight": "bold",
-                    "size": "sm"
-                  }
-                ]
-              }
+              "type": "text",
+              "text": `no. ${data.no}`,
+              "color": "#AAAAAA",
+              "weight": "bold",
+              "size": "sm"
+            },
+            {
+              "type": "text",
+              "text": `#${data.seed}`,
+              "weight": "bold",
+              "size": "sm",
+              "color": "#AAAAAA",
+              "contents": [],
+              "align": "end"
             }
           ]
         },
-        "styles": {
-          "body": {
-            "backgroundColor": "#fbf3e3",
-          }
+        "hero": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "md",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "flex": 1,
+                  "contents": [
+                    {
+                      "type": "image",
+                      "url": `https://www.legendarypokemon.net/images/sprites/bw/${new String(data.no).padStart('3', '0')}.png`,
+                      "gravity": "bottom",
+                      "aspectRatio": "4:3",
+                      "aspectMode": "cover"
+                    }
+                  ]
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "flex": 2,
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": `Lv. ${data.lv} ${data.name}`,
+                      "flex": 1,
+                      "contents": [],
+                      "weight": "bold"
+                    },
+                    {
+                      "type": "text",
+                      "text": `屬性: ${data.type}  性格: ${data.nature}`,
+                      "size": "xs",
+                      "flex": 1,
+                      "contents": []
+                    }
+                  ]
+                }
+              ],
+              "paddingStart": "md",
+              "paddingEnd": "md"
+            }
+          ]
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "md",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "HP",
+                      "weight": "bold",
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "ATK",
+                      "weight": "bold",
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "DEF",
+                      "weight": "bold",
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "SP.A",
+                      "weight": "bold",
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "SP.D",
+                      "weight": "bold",
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "SPD",
+                      "weight": "bold",
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": `${data.hp}`,
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": `${data.atk}`,
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": `${data.def}`,
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": `${data.spatk}`,
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": `${data.spdef}`,
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": `${data.spd}`,
+                      "size": "sm"
+                    }
+                  ],
+                  "alignItems": "center"
+                }
+              ]
+            }
+          ],
+          "paddingTop": "xs",
+          "paddingBottom": "xs"
+        },
+        "footer": {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "text",
+              "text": `PR(等級/個體/努力): ${data.prlv}/${data.priv}/${data.prev}`,
+              "align": "end",
+              "color": "#AAAAAA",
+              "weight": "bold",
+              "size": "xs"
+            }
+          ]
         }
       }
     }
+    
+    
+
   }
 
 }
