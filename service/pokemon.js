@@ -5685,7 +5685,7 @@ class PKMN {
                         "contents": [
                           {
                             "type": "image",
-                            "url": `https://www.legendarypokemon.net/images/sprites/bw/${data.no.padStart('3', '0')}.png`,
+                            "url": `https://www.legendarypokemon.net/images/sprites/bw/${new String(data.no).padStart('3', '0')}.png`,
                             "gravity": "bottom",
                             "size": "sm",
                             "aspectRatio": "4:3",

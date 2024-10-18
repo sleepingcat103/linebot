@@ -61,7 +61,7 @@ class LineController {
             // } else if (mainMsg.length > 1 && IsEquals(trigger, ['T', 'AI', 'Ai', 'ai'])) {
             //     reply(tokens.reply, [ TextMsg(await mainFunctions.openaiText(mainMsg, tokens.push)) ]);
 
-            } else if (IsEquals(trigger, ['!抓寶', '!皮卡丘'])) {
+            } else if (IsEquals(trigger, ['!抓', '!抓寶', '!皮卡丘', '!皮神'])) {
                 reply(tokens.reply, [ TextMsg(await mainFunctions.pokemon(mainMsg[1] || '')) ]);
 
             // neta 
