@@ -4171,4 +4171,4 @@ class PKMN {
 
 module.exports = PKMN;
 
-console.log(PKMN.fight(PKMN.getDaZe(), PKMN.getDaZe()));
+// console.log(PKMN.fight(PKMN.getDaZe(), PKMN.getDaZe()));

@@ -416,7 +416,7 @@ class mainFunctions {
     pokemonFight(seed1 = '', seed2 = '') {
         const pkmn1 = pokemon.getDaZe(seed1.replace('#', ''));
         const pkmn2 = pokemon.getDaZe(seed2.replace('#', ''));
-        return pkmn.fight(pkmn1, pkmn2);
+        return pokemon.fight(pkmn1, pkmn2);
     }
 }
 module.exports = new mainFunctions();
