@@ -25,7 +25,7 @@ class LineController {
             let trigger = mainMsg[0].toString().toLowerCase(); // 統一小寫
     
             //不是很重要的功能
-            if (IsEquals(trigger, ['抽卡', '抽爆', '抽!', '!抽', '抽！', '！抽', '10連抽', '10連', '10抽'])){
+            if (IsEquals(trigger, ['抽卡', '抽爆', '抽!', '!抽', '抽！', '10連抽', '10連', '10抽', '!10抽', '！抽', '！10抽'])){
                 reply(tokens.reply, [ mainFunctions.gotcha()] );
     
             } else if (IsMatches(trigger, ["排序", "排列", "幫我排"]) && mainMsg.length >= 3) {
@@ -61,9 +61,9 @@ class LineController {
             // } else if (mainMsg.length > 1 && IsEquals(trigger, ['T', 'AI', 'Ai', 'ai'])) {
             //     reply(tokens.reply, [ TextMsg(await mainFunctions.openaiText(mainMsg, tokens.push)) ]);
 
-            } else if (IsEquals(trigger, ['!抓', '!抓寶', '!皮卡丘', '!皮神'])) {
+            } else if (IsEquals(trigger, ['!抓', '!抓寶', '！抓寶','！抓'])) {
                 reply(tokens.reply, [ mainFunctions.pokemon(mainMsg[1] || '') ]);
-            } else if (IsEquals(trigger, ['!對戰', '!決鬥',])) {
+            } else if (IsEquals(trigger, ['!對戰', '!決鬥', '！對戰', '！決鬥'])) {
                 reply(tokens.reply, mainFunctions.pokemonFight(mainMsg[1], mainMsg[2]) );
 
             // neta 

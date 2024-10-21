@@ -408,14 +408,14 @@ class mainFunctions {
     //     });
     // }
 
-    pokemon(seed) {
-        const pkmn = pokemon.getDaZe(seed);
+    pokemon(seed = '') {
+        const pkmn = pokemon.getDaZe(seed.replace('#', ''));
         return pkmn.getLineReply();
     }
 
-    pokemonFight(seed1, seed2) {
-        const pkmn1 = pokemon.getDaZe(seed1);
-        const pkmn2 = pokemon.getDaZe(seed2);
+    pokemonFight(seed1 = '', seed2 = '') {
+        const pkmn1 = pokemon.getDaZe(seed1.replace('#', ''));
+        const pkmn2 = pokemon.getDaZe(seed2.replace('#', ''));
         return pkmn.fight(pkmn1, pkmn2);
     }
 }
