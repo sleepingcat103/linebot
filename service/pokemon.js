@@ -3630,11 +3630,15 @@ class PKMN {
     // carousel + text
     return [
       {
-        "type": "carousel",
-        "contents": [
-          pokemon1.getLineReply().contents,
-          pokemon2.getLineReply().contents,
-        ]
+        "type": "flex",
+        "altText": `決鬥!! 我的回合!!`,
+        "contents": {
+          "type": "carousel",
+          "contents": [
+            pokemon1.getLineReply().contents,
+            pokemon2.getLineReply().contents,
+          ]
+        }
       },
       {
         type: 'text',
