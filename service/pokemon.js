@@ -415,7 +415,7 @@ class PKMN {
   #getMoves() {
     const _this = this;
     const possiableMoves = [];
-    const moves = Object.assign(pkmnMoves.find(m => m[0] == this.#no));
+    const moves = Array.from(pkmnMoves.find(m => m[0] == this.#no));
     moves.shift();
 
     while(moves.length > 0) {
@@ -625,7 +625,8 @@ class PKMN {
                   "contents": [
                     {
                       "type": "image",
-                      "url": `https://www.legendarypokemon.net/images/sprites/bw/${new String(data.no).padStart('3', '0')}.png`,
+                      "url": `https://www.serebii.net/pokemon/art/${new String(data.no).padStart('3', '0')}.png`,
+                      // "url": `http://www.legendarypokemon.net/images/sprites/bw/${new String(data.no).padStart('3', '0')}.png`,
                       "gravity": "bottom",
                       "aspectRatio": "4:3",
                       "aspectMode": "cover"
@@ -878,4 +879,4 @@ class PKMN {
 module.exports = PKMN;
 
 // console.log(PKMN.fight(PKMN.getDaZe(), PKMN.getDaZe()));
-console.log(PKMN.getDaZe('甲賀忍蛙').getStatus());
+// console.log(PKMN.getDaZe('甲賀忍蛙').getStatus());
