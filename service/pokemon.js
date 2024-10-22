@@ -411,10 +411,9 @@ class PKMN {
 
     return result;
   }
-
   #getMoves() {
     const _this = this;
-    const possiableMoves = [];
+    const possiableMoveIds = [];
     const moves = Array.from(pkmnMoves.find(m => m[0] == this.#no));
     moves.shift();
 
@@ -428,8 +427,10 @@ class PKMN {
       if(move[1] == '不定' || move[1] == '-') continue;
       if(this.#lv < lv) continue;
 
-      possiableMoves.push(allMoves[moveId]);
+      possiableMoveIds.push(moveId);
     }
+
+    const possiableMoves = Array.from(new Set(possiableMoveIds)).map(moveId => allMoves[moveId]);
 
     return shuffleArray(possiableMoves).splice(0, 4);
 
