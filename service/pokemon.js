@@ -148,7 +148,7 @@ class PKMN {
   #prev = 0;
 
   constructor(seed = '') {
-    let pkmn = pkmns.find(pkmn => pkmns[0] == seed || pkmns[1] == seed);
+    let pkmn = pkmns.find(pkmn => pkmn[0] == seed || pkmn[1] == seed);
 
     if(pkmn) {
       this.#seed = this.#randomSeed();
@@ -878,4 +878,4 @@ class PKMN {
 module.exports = PKMN;
 
 // console.log(PKMN.fight(PKMN.getDaZe(), PKMN.getDaZe()));
-// console.log(PKMN.getDaZe().getStatus());
+console.log(PKMN.getDaZe('甲賀忍蛙').getStatus());
