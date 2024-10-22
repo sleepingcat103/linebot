@@ -1,5 +1,5 @@
 
-console.log(process.env)
+// console.log(process.env)
 
 let axios = require('axios');
 var rp = require('request-promise');
