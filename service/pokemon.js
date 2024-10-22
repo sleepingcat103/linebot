@@ -208,9 +208,9 @@ class PKMN {
     const pkm1 = pokemon1.getStatus();
     const pkm2 = pokemon2.getStatus();
     const actions = getActions(pkm1.spd, pkm2.spd, maxRounds);
-    const rounds = ['戰鬥開始'];
+    const rounds = ['戰鬥開始', `-*-*-*-*-`];
 
-    console.log(pkm1, pkm2)
+    // console.log(pkm1, pkm2)
 
     // 攻擊方主屬打防守兩屬性
     const type1Ratio = pkm2.type1 == pkm2.type2 ? PKMN.damage[pkm1.type1][pkm2.type1] : PKMN.damage[pkm1.type1][pkm2.type1] * PKMN.damage[pkm1.type1][pkm2.type2];
@@ -237,19 +237,6 @@ class PKMN {
         ratio = type2Ratio;
       }
       
-      // let atk = ((attacker.atk + attacker.spatk) / 2) ; // 抓一個比例
-      //   atk = atk * (0.85 + Math.random() * 0.15); // 亂數 50~100 %
-      //   atk = atk * ratio; // 種族加成
-      //   atk = Math.floor(atk);
-      //   atk = atk > 0 ? atk : 1;
-      // let def = ((defenser.def + defenser.spdef) / 2); // 抓一個比例
-      //   def = def * (0.5 + Math.random() * 0.5); // 亂數 50~100 %
-      //   // def = def * ; // 種族加成
-      //   def = Math.floor(def) || 0;
-      //   def = def > 0 ? def : 1;
-
-      // let damage = atk - def;
-      // damage = damage > 0 ? damage : 1;
       let move = attacker.moves[Math.floor(Math.random() * attacker.moves.length)];
       let moveName = move[6].split('.')[0];
       let physical = (move[0] == '普' || move[0] == '格');
@@ -265,13 +252,16 @@ class PKMN {
       if(move[2] == '必中' || move[2] >= (100 - Math.random()*100 + 1)) {
         defenser.hp -= damage;
         defenser.hp = defenser.hp > 0 ? defenser.hp : 0;
-        rounds.push(`${attacker.name} 使出 ${moveName}! ${ratioDesc} ${defenser.name} 血量: ${defenser.hp} (-${damage})`);
+        rounds.push(`${i}. ${attacker.name} 使出 ${moveName}!`);
+        rounds.push(`　${ratioDesc} ${defenser.name} 血量: ${defenser.hp} (-${damage})`);
       } else {
-        rounds.push(`${attacker.name} 使出 ${moveName}! 但是沒有命中! ${defenser.name} 血量: ${defenser.hp} (-${damage})`);
+        rounds.push(`${i}. ${attacker.name} 使出 ${moveName}!`);
+        rounds.push(`　但是沒有命中! ${defenser.name} 血量: ${defenser.hp}`);
       }
     }
 
     // result
+    rounds.push(`-*-*-*-*-`);
     if(pkm1.hp > pkm2.hp) {
       rounds.push(`${pkm1.name} 的勝利!!`);
     } else if(pkm1.hp < pkm2.hp) {
@@ -468,6 +458,8 @@ class PKMN {
       name: this.#name,
       type: this.#type1 == this.#type2 ? PKMN.types[this.#type1] : PKMN.types[this.#type1] + '、' + PKMN.types[this.#type2],
       nature: PKMN.naturesChinese[this.#nature],
+
+      moves: this.#moves,
 
       lv: this.#lv,
 
@@ -833,6 +825,32 @@ class PKMN {
                   "alignItems": "center"
                 }
               ]
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                data.moves.map((move, index) => ({
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": `${index+1}. ${move[6].split('.')[0]} (${move[0]}) `,
+                      "size": "xs"
+                    },
+                    {
+                      "type": "text",
+                      "text": `${move[1]} / ${move[2]}`,
+                      "align": "end",
+                      "size": "xs"
+                    }
+                  ]
+                }))
+              ]
             }
           ],
           "paddingTop": "xs",
@@ -854,8 +872,6 @@ class PKMN {
         }
       }
     }
-    
-    
 
   }
 
