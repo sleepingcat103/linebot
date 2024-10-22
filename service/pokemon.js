@@ -832,25 +832,23 @@ class PKMN {
             {
               "type": "box",
               "layout": "vertical",
-              "contents": [
-                data.moves.map((move, index) => ({
-                  "type": "box",
-                  "layout": "horizontal",
-                  "contents": [
-                    {
-                      "type": "text",
-                      "text": `${index+1}. ${move[6].split('.')[0]} (${move[0]}) `,
-                      "size": "xs"
-                    },
-                    {
-                      "type": "text",
-                      "text": `${move[1]} / ${move[2]}`,
-                      "align": "end",
-                      "size": "xs"
-                    }
-                  ]
-                }))
-              ]
+              "contents": data.moves.map((move, index) => ({
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": `${index+1}. ${move[6].split('.')[0]} (${move[0]}) `,
+                    "size": "xs"
+                  },
+                  {
+                    "type": "text",
+                    "text": `${move[1]} / ${move[2]}`,
+                    "align": "end",
+                    "size": "xs"
+                  }
+                ]
+              }))
             }
           ],
           "paddingTop": "xs",
